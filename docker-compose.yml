@@ -1,0 +1,23 @@
+version: '3'
+services:
+
+  web:
+    image: timurbabs/django
+    # build:
+      # context: ./django/
+    # command: gunicorn locallibrary.wsgi:application --bind 0.0.0.0:8000
+    volumes:
+      - ./django/:/usr/src/app/
+      - static_files:/usr/src/app/staticfiles
+    expose:
+      - 8000
+
+  nginx:
+    build: ./nginx/
+    ports:
+      - 80:80
+    volumes:
+      - ./nginx/conf.d/:/etc/nginx/conf.d/
+      - static_files:/home/app/staticfiles
+volumes:
+  static_files:
